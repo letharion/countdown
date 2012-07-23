@@ -1,0 +1,41 @@
+<?php
+/**
+ * @file
+ * Install file with database schema for the countdown module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function countdown_schema() {
+  $schema = array(
+    'countdowns' => array(
+      'description' => 'Holds countdowns and their settings',
+      'fields' => array(
+        'cid' => array(
+          'description' => 'Site specific countdown id.',
+          'type' => 'serial',
+          'unsigned' => FALSE,
+          'not null' => TRUE,
+        ),
+        'target_time' => array(
+          'description' => 'The time when the countdown reaches 0.',
+          'type' => 'int',
+          'unsigned' => FALSE,
+          'not null' => TRUE,
+        ),
+        'output_format' => array(
+          'description' => "How the timer should be formatted in it's output.",
+          'type' => 'varchar',
+          'length' => '16',
+          'not null' => TRUE,
+        ),
+      ),
+      'indexes' => array(
+        'c_id' => array('cid'),
+      ),
+    ),
+  );
+
+  return $schema;
+}
