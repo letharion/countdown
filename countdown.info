@@ -2,3 +2,5 @@ name = Countdown
 core = 7.x
 
 dependencies[] = jquery_countdown
+
+files[] = plugin/countdown_context.inc
