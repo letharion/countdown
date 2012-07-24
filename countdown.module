@@ -74,6 +74,8 @@ function _countdown_countdown_page() {
   $form['new_output_format_1'] = array(
     '#type' => 'textfield',
     '#title' => 'Output format',
+    '#description' => t("You only need to change this if you do not like the default output style. Available output tokens are YOWDHMS, for, in order, Years, Months, Weeks, Days, Hours, Minutes and Seconds. Upper-case means the value will always show, lower-case will hide the value when it reaches 0."),
+    '#default_value' => 'yowdhms',
     '#size' => 20,
   );
 

@@ -29,7 +29,7 @@ class countdown_context_condition extends context_condition {
   public function options_form($context) {
     $defaults = $this->fetch_from_context($context, 'options');
     $options = array(
-      '>=' =>  t('Current time is equal or after countdown target time.'),
+      '>=' =>  t('Current time is equal to or after countdown target time.'),
       '<' => t('Current time is before countdown target time.'),
     );
     $form['operation'] = array(
