@@ -40,18 +40,6 @@ class countdown_context_condition extends context_condition {
       '#default_value' => isset($defaults['operation']) ? $defaults['operation'] : '',
       '#required' => TRUE,
     );
-    $form['value'] = array(
-      '#title' => t('Value'),
-      '#type' => 'textfield',
-      '#description' => t("The value the countdown should contain to meet the condition. This can either be an absolute date in ISO format (YYYY-MM-DDTHH:MM:SS) or a relative string like '12AM today'. Examples: 2011-12-31T00:00:00, now, now +1 day, 12AM today, Monday next week. <a href=\"@relative_format\">More examples of relative date formats in the PHP documentation</a>.", array('@relative_format' => 'http://www.php.net/manual/en/datetime.formats.relative.php')),
-      '#default_value' => isset($defaults['value']) ? $defaults['value'] : '',
-      '#process' => array('ctools_dependent_process'),
-      '#dependency' => array(
-        ':input[name="conditions[plugins][countdown_context_date_condition][options][operation]"]' => array(
-          '<', '<=', '>', '>=', '=', '!=',
-        ),
-      ),
-    );
     return $form;
   }
 
@@ -80,17 +68,17 @@ class countdown_context_condition extends context_condition {
         }
 
         $target_time = $countdown->target_time;
-        $compare_time = strtotime($options['value']);
+        $compare_time = time();
 
         switch ($options['operation']) {
           case '>=':
-            if ($target_time >= $compare_time) {
+            if ($compare_time >= $target_time) {
               $this->condition_met($context);
             }
             break;
 
           case '<':
-            if ($target_time < $compare_time) {
+            if ($compare_time < $target_time) {
               $this->condition_met($context);
             }
             break;
