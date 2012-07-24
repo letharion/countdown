@@ -258,14 +258,11 @@ function countdown_block_view($delta) {
 }
 
 /**
- * Implements hook_context_node_condition_alter().
+ * Implements hook_init().
  */
-function countdown_context_context_node_condition_alter($node, $op) {
-  dpm($node);
-  dpm($op);
-  if ($plugin = context_get_plugin('condition', 'countdown_context_date_condition')) {
-    dpm($plugin);
-    $plugin->execute($node, $op);
+function countdown_init() {
+  if ($plugin = context_get_plugin('condition', 'countdown')) {
+    $plugin->execute();
   }
 }
 
@@ -274,9 +271,11 @@ function countdown_context_context_node_condition_alter($node, $op) {
  */
 function countdown_context_plugins() {
   $plugins = array(
-    'countdown_context_date_condition' => array(
+    'countdown_context_condition' => array(
       'handler' => array(
-        'class' => 'countdown_context_date_condition',
+        'path' => drupal_get_path('module', 'countdown') . '/plugin',
+        'file' => 'countdown_context.inc',
+        'class' => 'countdown_context_condition',
         'parent' => 'context_condition',
       ),
     ),
@@ -291,10 +290,10 @@ function countdown_context_plugins() {
 function countdown_context_registry() {
   return array(
     'conditions' => array(
-      'countdown_context_date_condition' => array(
+      'countdown' => array(
         'title' => t('Countdown'),
-        'description' => t('Set a condition based on the value of a countdown'),
-        'plugin' => 'countdown_context_date_condition',
+        'description' => t('Set a condition based on the value of a countdown. If you select more than one, any one fullfilling the requirement will make the condition TRUE.'),
+        'plugin' => 'countdown_context_condition',
       ),
     ),
   );
