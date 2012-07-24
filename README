@@ -1,0 +1,11 @@
+Countdown provides the ability to create any number of countdowns, each with it's own formatter settings, and integrates these with the context module, both as block reactions and before/after conditions.
+
+It uses the jQuery countdown library (http://keith-wood.name/countdown.html) for a lot of it's functionality, and depends on the Drupal module (http://drupal.org/project/jquery_countdown/) to provide the library. As the countdown uses javascript, it's reverse proxy friendly.
+
+Example of how to use:
+1. To go Structure >> Countdowns.
+2. Enter a target time for a new countdown, change the output format from the default if you want to.
+3. Save. You will now have a block that you can place anywhere you want.
+4. To use with context, create a new context, add a countdown condition, pick the new timer, select the "Before" option.
+5. Add two reactions, the "Powered by Drupal" block, and the timer block itself.
+6. The Drupal and timer blocks, will now only show up until the timer runs to 0.
