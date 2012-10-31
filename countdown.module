@@ -14,21 +14,42 @@ function countdown_menu() {
       'description' => 'Manage countdowns on your site',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('_countdown_countdown_page'),
-      'access callback' => TRUE,
+      'access callback' => '_countdown_access',
     ),
     'admin/structure/countdown/edit/%' => array(
       'page callback' => 'drupal_get_form',
       'page arguments' => array('_countdown_countdown_page_edit', 4),
-      'access callback' => TRUE,
+      'access callback' => '_countdown_access',
     ),
     'admin/structure/countdown/delete/%' => array(
       'page callback' => 'drupal_get_form',
       'page arguments' => array('_countdown_countdown_page_delete', 4),
-      'access callback' => TRUE,
+      'access callback' => '_countdown_access',
     ),
   );
 
   return $items;
+}
+
+/**
+ * Access callback for all the menu callbacks defined by this module.
+ */
+function _countdown_access() {
+  return user_access('administer countdowns');
+}
+
+/**
+ * Implements hook_permission().
+ */
+function countdown_permission() {
+  $permissions = array(
+    'administer countdowns' => array(
+      'title' => t('Administer countdowns'),
+      'description' => t('Allows for adding, editing and deleting countdowns'),
+    ),
+  );
+
+  return $permissions;
 }
 
 /**
