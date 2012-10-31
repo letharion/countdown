@@ -53,13 +53,15 @@ function _countdown_countdown_page() {
   }
 
   $table = array(
-    'header' => array('Target time', 'Output format', 'Edit', 'Delete'),
+    'header' => array_map('t',
+      array('Target time', 'Output format', 'Edit', 'Delete')
+    ),
     'rows' => $rows,
     'attributes' => array(),
     'caption' => '',
     'colgroups' => array(),
     'sticky' => FALSE,
-    'empty' => 'No countdowns created',
+    'empty' => t('No countdowns created'),
   );
   $form['existing_countdowns'] = array(
     '#markup' => theme_table($table),
@@ -67,21 +69,21 @@ function _countdown_countdown_page() {
 
   $form['new_countdown_1'] = array(
     '#type' => 'textfield',
-    '#title' => 'Target time',
+    '#title' => t('Target time'),
     '#size' => 20,
   );
 
   $form['new_output_format_1'] = array(
     '#type' => 'textfield',
-    '#title' => 'Output format',
-    '#description' => t("You only need to change this if you do not like the default output style. Available output tokens are YOWDHMS, for, in order, Years, Months, Weeks, Days, Hours, Minutes and Seconds. Upper-case means the value will always show, lower-case will hide the value when it reaches 0."),
+    '#title' => t('Output format'),
+    '#description' => t('You only need to change this if you do not like the default output style. Available output tokens are YOWDHMS, for, in order, Years, Months, Weeks, Days, Hours, Minutes and Seconds. Upper-case means the value will always show, lower-case will hide the value when it reaches 0.'),
     '#default_value' => 'yowdhms',
     '#size' => 20,
   );
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'submit',
+    '#value' => t('Submit'),
   );
 
   return $form;
@@ -127,21 +129,21 @@ function _countdown_countdown_page_edit($form, $form_state, $countdown_id) {
 
   $form['target_time'] = array(
     '#type' => 'textfield',
-    '#title' => 'Target time',
+    '#title' => t('Target time'),
     '#default_value' => date('Y-m-d H:i:s', $countdown['target_time']),
     '#size' => 20,
   );
 
   $form['output_format'] = array(
     '#type' => 'textfield',
-    '#title' => 'Output format',
+    '#title' => t('Output format'),
     '#default_value' => $countdown['output_format'],
     '#size' => 20,
   );
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'submit',
+    '#value' => t('Submit'),
   );
 
   return $form;
