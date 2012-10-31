@@ -16,12 +16,12 @@ function countdown_menu() {
       'page arguments' => array('_countdown_countdown_page'),
       'access callback' => '_countdown_access',
     ),
-    'admin/structure/countdown/edit/%' => array(
+    'admin/structure/countdown/edit/%countdown' => array(
       'page callback' => 'drupal_get_form',
       'page arguments' => array('_countdown_countdown_page_edit', 4),
       'access callback' => '_countdown_access',
     ),
-    'admin/structure/countdown/delete/%' => array(
+    'admin/structure/countdown/delete/%countdown' => array(
       'page callback' => 'drupal_get_form',
       'page arguments' => array('_countdown_countdown_page_delete', 4),
       'access callback' => '_countdown_access',
@@ -36,6 +36,19 @@ function countdown_menu() {
  */
 function _countdown_access() {
   return user_access('administer countdowns');
+}
+
+/**
+ * Menu wildcard auto-loader for countdowns.
+ */
+function countdown_load($countdown_id) {
+  $countdown = db_select('countdowns', 'c')
+    ->fields('c')
+    ->condition('cid', $countdown_id)
+    ->execute()
+    ->fetchAssoc();
+
+  return $countdown;
 }
 
 /**
@@ -138,15 +151,9 @@ function _countdown_countdown_page_submit($form, $form_state) {
 /**
  * Edit countdown page callback.
  */
-function _countdown_countdown_page_edit($form, $form_state, $countdown_id) {
+function _countdown_countdown_page_edit($form, $form_state, $countdown) {
   $form = array();
-  $form_state['countdown_id'] = $countdown_id;
-
-  $countdown = db_select('countdowns', 'c')
-    ->fields('c')
-    ->condition('cid', $countdown_id)
-    ->execute()
-    ->fetchAssoc();
+  $form_state['countdown_id'] = $countdown['cid'];
 
   $form['target_time'] = array(
     '#type' => 'textfield',
@@ -195,14 +202,14 @@ function _countdown_countdown_page_edit_submit($form, $form_state) {
 /**
  * Delete countdown page callback.
  */
-function _countdown_countdown_page_delete($form, $form_state, $countdown_id) {
+function _countdown_countdown_page_delete($form, $form_state, $countdown) {
   $form = array();
   $form['#redirect'] = array('admin/structure/countdown');
-  $form_state['countdown_id'] = $countdown_id;
+  $form_state['countdown_id'] = $countdown['cid'];
 
   $output = confirm_form(
     $form,
-    t('Do you want to delete countdown @id?', array('@id' => $countdown_id)),
+    t('Do you want to delete countdown @id?', array('@id' => $countdown['cid'])),
     'admin/structure/countdown'
   );
 
